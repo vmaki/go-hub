@@ -22,10 +22,7 @@ func init() {
 func LoadEnv(env string) {
 	envPath := "settings.yml"
 	if env != "" {
-		filePath := "settings." + env + "+.yml"
-		if _, err := os.Stat(filePath); err == nil {
-			envPath = filePath
-		}
+		envPath = "settings." + env + "+.yml"
 	}
 
 	// 检查配置文件是否存在
