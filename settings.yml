@@ -1,0 +1,5 @@
+application:
+  name: testApp
+  mode: dev
+  port: 7001
+  debug: true
