@@ -2,6 +2,7 @@ package boot
 
 import (
 	"github.com/gin-gonic/gin"
+	"go-hub/common/middlewares"
 	"go-hub/routes"
 	"net/http"
 	"strings"
@@ -20,7 +21,7 @@ func SetupRoute(r *gin.Engine) {
 
 func registerGlobalMiddleWare(r *gin.Engine) {
 	r.Use(
-		gin.Logger(),
+		middlewares.Logger(),
 		gin.Recovery(),
 	)
 }
