@@ -2,7 +2,8 @@ package boot
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-hub/common/middlewares"
+	"go-hub/common/middleware"
+	"go-hub/pkg/response"
 	"go-hub/routes"
 	"net/http"
 	"strings"
@@ -21,20 +22,19 @@ func SetupRoute(r *gin.Engine) {
 
 func registerGlobalMiddleWare(r *gin.Engine) {
 	r.Use(
-		middlewares.Logger(),
-		middlewares.Recovery(),
+		middleware.Logger(),
+		middleware.Recovery(),
 	)
 }
 
 func setup404Handler(r *gin.Engine) {
 	r.NoRoute(func(ctx *gin.Context) {
 		accept := ctx.GetHeader("Accept")
+
 		if strings.Contains(accept, "text/html") {
 			ctx.String(http.StatusNotFound, "该页面不存在")
 		} else {
-			ctx.JSON(http.StatusNotFound, gin.H{
-				"msg": "该接口不存在",
-			})
+			response.Abort404(ctx)
 		}
 	})
 }

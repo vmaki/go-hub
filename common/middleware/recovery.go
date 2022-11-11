@@ -1,11 +1,11 @@
-package middlewares
+package middleware
 
 import (
 	"github.com/gin-gonic/gin"
 	"go-hub/pkg/logger"
+	"go-hub/pkg/response"
 	"go.uber.org/zap"
 	"net"
-	"net/http"
 	"net/http/httputil"
 	"os"
 	"strings"
@@ -37,7 +37,7 @@ func Recovery() gin.HandlerFunc {
 						zap.String("request", string(req)),
 					)
 
-					ctx.Error(err.(error))
+					_ = ctx.Error(err.(error))
 					ctx.Abort()
 
 					// 链接已断开，无法写状态码
@@ -53,9 +53,7 @@ func Recovery() gin.HandlerFunc {
 				)
 
 				// 返回 500 状态码
-				ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-					"message": "服务器内部错误，请稍后再试",
-				})
+				response.Error(ctx)
 			}
 		}()
 

@@ -1,10 +1,10 @@
-package middlewares
+package middleware
 
 import (
 	"bytes"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
-	"go-hub/common/helpers"
+	"go-hub/common/helper"
 	"go-hub/pkg/logger"
 	"go.uber.org/zap"
 	"io"
@@ -48,10 +48,10 @@ func Logger() gin.HandlerFunc {
 			zap.Int("status", status),
 			zap.String("request", c.Request.Method+" "+c.Request.URL.String()),
 			zap.String("query", c.Request.URL.RawQuery),
-			zap.String("ip", helpers.ClientIP(c.Request)),
+			zap.String("ip", helper.ClientIP(c.Request)),
 			zap.String("user-agent", c.Request.UserAgent()),
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
-			zap.String("time", helpers.MicrosecondsStr(cost)),
+			zap.String("time", helper.MicrosecondsStr(cost)),
 		}
 
 		if c.Request.Method == "POST" || c.Request.Method == "PUT" || c.Request.Method == "DELETE" {
