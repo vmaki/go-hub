@@ -14,6 +14,8 @@ func main() {
 	flag.Parse()
 	boot.SetupConfig(env)
 
+	boot.SetupLogger()
+
 	r := gin.New()
 
 	boot.SetupRoute(r)

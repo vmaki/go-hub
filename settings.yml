@@ -3,3 +3,11 @@ application:
   mode: dev
   port: 7001
   debug: true
+logger:
+  path: tmp/logs
+  level: debug
+  type: daily
+  maxSize: 64
+  maxBackup: 5
+  maxAge: 30
+  compress: false
