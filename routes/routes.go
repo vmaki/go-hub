@@ -13,5 +13,13 @@ func RegisterAPIRouters(r *gin.Engine) {
 				"msg": "Hello World",
 			})
 		})
+
+		v1.GET("/test/recovery", func(ctx *gin.Context) {
+			panic("这是 panic 测试")
+
+			ctx.JSON(http.StatusOK, gin.H{
+				"msg": "Hello Recovery",
+			})
+		})
 	}
 }
