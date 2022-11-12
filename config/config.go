@@ -5,5 +5,5 @@ var Cfg Configuration
 type Configuration struct {
 	Application ApplicationConfig
 	Logger      LoggerConfig
-	DataBase    DatabaseConfig
+	DataBases   map[string]DatabaseConfig
 }

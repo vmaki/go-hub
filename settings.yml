@@ -11,8 +11,14 @@ logger:
   maxBackup: 5
   maxAge: 30
   compress: false
-database:
-  dsn: root:root@tcp(127.0.0.1:3306)/go-hub?charset=utf8mb4&parseTime=True&loc=Local&timeout=1000ms
-  maxOpenConnections: 100
-  maxIdleConnections: 25
-  maxLifeSeconds: 300
+databases:
+  - default:
+      dsn: root:root@tcp(127.0.0.1:3306)/go-hub?charset=utf8mb4&parseTime=True&loc=Local&timeout=1000ms
+      maxOpenConnections: 100
+      maxIdleConnections: 25
+      maxLifeSeconds: 300
+  - "go-hub-2":
+      dsn: root:root@tcp(127.0.0.1:3306)/go-hub-2?charset=utf8mb4&parseTime=True&loc=Local&timeout=1000ms
+      maxOpenConnections: 100
+      maxIdleConnections: 25
+      maxLifeSeconds: 300

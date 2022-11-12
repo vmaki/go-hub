@@ -6,14 +6,5 @@ import (
 )
 
 func SetupDB() {
-	db := config.Cfg.DataBase
-
-	database.InitDatabase(
-		db.Dsn,
-		db.MaxOpenConnections,
-		db.MaxIdleConnections,
-		db.MaxLifeSeconds,
-	)
-
-	// database.DB.AutoMigrate(&model.UserModel{})
+	database.InitDatabase(config.Cfg.DataBases)
 }

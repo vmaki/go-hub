@@ -11,6 +11,6 @@ type UserService struct {
 
 func (s UserService) IsPhoneExist(phone string) bool {
 	var count int64
-	database.DB.Model(model.UserModel{}).Where("phone = ?", phone).Count(&count)
+	database.DB().Model(model.UserModel{}).Where("phone = ?", phone).Count(&count)
 	return count > 0
 }

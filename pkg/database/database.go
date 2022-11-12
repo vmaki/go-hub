@@ -2,43 +2,74 @@ package database
 
 import (
 	"database/sql"
+	"go-hub/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"time"
 )
 
-var (
+type DBInfo struct {
 	DB    *gorm.DB
 	SQLDB *sql.DB
-)
+}
 
-func InitDatabase(dsn string, maxOpenConnections, maxIdleConnections, maxLifeSeconds int) {
+var DBCollections map[string]*DBInfo
+
+func InitDatabase(dbs map[string]config.DatabaseConfig) {
+	for name, v := range dbs {
+		if DBCollections == nil {
+			DBCollections = make(map[string]*DBInfo, len(config.Cfg.DataBases))
+		}
+
+		db, sqlDb, err := Connect(v.Dsn, logger.Default.LogMode(logger.Info))
+		if err != nil {
+			panic(err)
+		}
+
+		dbStruct := &DBInfo{
+			DB:    db,
+			SQLDB: sqlDb,
+		}
+
+		DBCollections[name] = dbStruct
+		DBCollections[name].SQLDB.SetMaxOpenConns(v.MaxOpenConnections)
+		DBCollections[name].SQLDB.SetMaxIdleConns(v.MaxIdleConnections)
+		DBCollections[name].SQLDB.SetConnMaxLifetime(time.Duration(v.MaxLifeSeconds) * time.Second)
+	}
+}
+
+func Connect(dsn string, _logger logger.Interface) (*gorm.DB, *sql.DB, error) {
 	dbConfig := mysql.New(mysql.Config{
 		DSN: dsn,
 	})
 
-	// 连接数据库，并设置 GORM 的日志模式
-	connect(dbConfig, logger.Default.LogMode(logger.Info))
+	db, err := gorm.Open(
+		dbConfig,
+		&gorm.Config{
+			Logger: _logger,
+		},
+	)
+	if err != nil {
+		return nil, nil, err
+	}
 
-	SQLDB.SetMaxOpenConns(maxOpenConnections)                             // 设置最大连接数
-	SQLDB.SetMaxIdleConns(maxIdleConnections)                             // 设置最大空闲连接数
-	SQLDB.SetConnMaxLifetime(time.Duration(maxLifeSeconds) * time.Second) // 设置每个链接的过期时间
+	sqlDb, err := db.DB()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return db, sqlDb, nil
 }
 
-func connect(dbConfig gorm.Dialector, _logger logger.Interface) {
-	var err error
+func DB(name ...string) *gorm.DB {
+	if len(name) > 0 {
+		if collect, ok := DBCollections[name[0]]; ok {
+			return collect.DB
+		}
 
-	DB, err = gorm.Open(dbConfig, &gorm.Config{
-		Logger: _logger,
-	})
-
-	if err != nil {
-		panic("连接数据库失败, err: " + err.Error())
+		return nil
 	}
 
-	SQLDB, err = DB.DB()
-	if err != nil {
-		panic("获取数据库失败, err: " + err.Error())
-	}
+	return DBCollections["default"].DB
 }
