@@ -16,6 +16,7 @@ func main() {
 
 	boot.SetupLogger()
 
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 
 	boot.SetupDB()

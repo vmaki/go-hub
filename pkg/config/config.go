@@ -42,5 +42,5 @@ func LoadEnv(env string, cfg *config.Configuration) {
 	}
 
 	// 监控 .env 文件，变更时重新加载
-	viper.WatchConfig()
+	//viper.WatchConfig()
 }
