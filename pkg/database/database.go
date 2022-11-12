@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"go-hub/config"
+	sysLogger "go-hub/pkg/logger"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -22,7 +23,7 @@ func InitDatabase(dbs map[string]config.DatabaseConfig) {
 			DBCollections = make(map[string]*DBInfo, len(config.Cfg.DataBases))
 		}
 
-		db, sqlDb, err := Connect(v.Dsn, logger.Default.LogMode(logger.Info))
+		db, sqlDb, err := Connect(v.Dsn, sysLogger.NewGormLogger())
 		if err != nil {
 			panic(err)
 		}
