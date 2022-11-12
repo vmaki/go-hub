@@ -20,6 +20,8 @@ func main() {
 
 	boot.SetupDB()
 
+	boot.SetupRedis()
+
 	boot.SetupRoute(r)
 
 	err := r.Run(":" + cast.ToString(config.Cfg.Application.Port))

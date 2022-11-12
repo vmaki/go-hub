@@ -1,6 +1,6 @@
 application:
   name: testApp
-  mode: dev
+  mode: local
   port: 7001
   debug: true
 logger:
@@ -22,3 +22,9 @@ databases:
       maxOpenConnections: 100
       maxIdleConnections: 25
       maxLifeSeconds: 300
+redis:
+  host: 127.0.0.1
+  port: 6379
+  username: ''
+  password: ''
+  database: 0
