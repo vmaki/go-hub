@@ -19,7 +19,7 @@ func init() {
 	v.AutomaticEnv()         // 读取环境变量（支持 flags）
 }
 
-func LoadEnv(env string) {
+func LoadEnv(env string, cfg *config.Configuration) {
 	envPath := "settings.yml"
 	if env != "" {
 		envPath = "settings." + env + "+.yml"
@@ -36,7 +36,7 @@ func LoadEnv(env string) {
 		panic("启动失败，err: 加载配置文件失败，" + err.Error())
 	}
 
-	err := v.Unmarshal(&config.Cfg)
+	err := v.Unmarshal(cfg)
 	if err != nil {
 		panic("启动失败，err: 读取配置文件失败，" + err.Error())
 	}

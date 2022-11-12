@@ -11,3 +11,14 @@ logger:
   maxBackup: 5
   maxAge: 30
   compress: false
+database:
+  driver: mysql
+  username: root
+  password: root
+  hostname: 127.0.0.1
+  port: 3306
+  database: go-hub
+  charset: utf8mb4
+  maxOpenConnections: 100
+  maxIdleConnections: 25
+  maxLifeSeconds: 300

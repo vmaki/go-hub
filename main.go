@@ -18,6 +18,8 @@ func main() {
 
 	r := gin.New()
 
+	boot.SetupDB()
+
 	boot.SetupRoute(r)
 
 	err := r.Run(":" + cast.ToString(config.Cfg.Application.Port))

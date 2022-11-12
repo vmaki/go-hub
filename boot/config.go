@@ -1,7 +1,10 @@
 package boot
 
-import "go-hub/pkg/config"
+import (
+	cfg "go-hub/config"
+	"go-hub/pkg/config"
+)
 
 func SetupConfig(env string) {
-	config.LoadEnv(env)
+	config.LoadEnv(env, &cfg.Cfg)
 }

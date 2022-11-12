@@ -13,6 +13,7 @@ func RegisterAPIRouters(r *gin.Engine) {
 			api := v12.TestController{}
 			testGroup.GET("/", api.Index)
 			testGroup.GET("/recovery", api.Recovery)
+			testGroup.GET("/db", api.Db)
 		}
 	}
 }
