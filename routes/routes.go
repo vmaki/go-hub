@@ -17,5 +17,11 @@ func RegisterAPIRouters(r *gin.Engine) {
 			testGroup.GET("/redis", api.Redis)
 			testGroup.POST("/vali", api.Vali)
 		}
+
+		authGroup := v1.Group("/auth")
+		{
+			api := v12.AuthController{}
+			authGroup.POST("/login", api.Login)
+		}
 	}
 }

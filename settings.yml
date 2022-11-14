@@ -3,6 +3,7 @@ application:
   mode: local
   port: 7001
   debug: true
+  timezone: Asia/Shanghai
 logger:
   path: tmp/logs
   level: debug
@@ -28,3 +29,7 @@ redis:
   username: ''
   password: ''
   database: 0
+jwt:
+  signKey: go-hub
+  expireTime: 3600
+  maxRefresh: 86400

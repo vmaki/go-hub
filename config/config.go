@@ -7,4 +7,5 @@ type Configuration struct {
 	Logger      LoggerConfig
 	DataBases   map[string]DatabaseConfig
 	Redis       RedisConfig
+	JWT         JWTConfig
 }
