@@ -5,6 +5,15 @@ import (
 	"net/http"
 )
 
+// defaultMessage 内用的辅助函数，用以支持默认参数默认值
+func defaultMessage(defaultMsg string, msg ...string) string {
+	if len(msg) > 0 {
+		return msg[0]
+	}
+
+	return defaultMsg
+}
+
 func Success(ctx *gin.Context, msg ...string) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"code":    0,
@@ -17,6 +26,13 @@ func JSON(ctx *gin.Context, data interface{}) {
 		"code":    0,
 		"message": "success",
 		"data":    data,
+	})
+}
+
+func Abort404(ctx *gin.Context, msg ...string) {
+	ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+		"code":    404,
+		"message": defaultMessage("该接口不存在，请确定请求正确", msg...),
 	})
 }
 
@@ -34,18 +50,9 @@ func BadRequest(ctx *gin.Context, msg ...string) {
 	})
 }
 
-func Abort404(ctx *gin.Context, msg ...string) {
-	ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-		"code":    404,
-		"message": defaultMessage("该接口不存在，请确定请求正确", msg...),
+func ErrAuth(ctx *gin.Context, msg ...string) {
+	ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		"code":    4101,
+		"message": defaultMessage("请重新授权", msg...),
 	})
-}
-
-// defaultMessage 内用的辅助函数，用以支持默认参数默认值
-func defaultMessage(defaultMsg string, msg ...string) string {
-	if len(msg) > 0 {
-		return msg[0]
-	}
-
-	return defaultMsg
 }

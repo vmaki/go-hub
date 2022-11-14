@@ -7,6 +7,7 @@ import (
 	"go-hub/app/http/controller/api"
 	"go-hub/app/service"
 	"go-hub/app/service/dto"
+	"go-hub/pkg/jwt"
 	"go-hub/pkg/redis"
 	"go-hub/pkg/request"
 	"go-hub/pkg/response"
@@ -55,4 +56,9 @@ func (tc TestController) Vali(ctx *gin.Context) {
 		Age:  18,
 	}
 	response.JSON(ctx, data)
+}
+
+func (tc *TestController) Auth(ctx *gin.Context) {
+	uid := jwt.CurrentUID(ctx)
+	response.Success(ctx, fmt.Sprintf("当前登录的用户 id：%v", uid))
 }
