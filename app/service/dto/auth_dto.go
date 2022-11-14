@@ -33,3 +33,7 @@ func (s *LoginReq) Generate(data interface{}) string {
 type LoginResp struct {
 	Token string
 }
+
+type RefreshTokenResp struct {
+	Token string
+}

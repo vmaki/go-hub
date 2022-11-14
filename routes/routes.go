@@ -24,6 +24,7 @@ func RegisterAPIRouters(r *gin.Engine) {
 		{
 			api := v12.AuthController{}
 			authGroup.POST("/login", api.Login)
+			authGroup.POST("/refresh-token", middleware.AuthJWT(), api.RefreshToken)
 		}
 	}
 }

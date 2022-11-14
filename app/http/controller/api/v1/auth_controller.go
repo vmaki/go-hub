@@ -31,3 +31,15 @@ func (c AuthController) Login(ctx *gin.Context) {
 
 	response.JSON(ctx, data)
 }
+
+func (c AuthController) RefreshToken(ctx *gin.Context) {
+	token, err := jwt.NewJWT().RefreshToken(ctx)
+	if err != nil {
+		response.Error(ctx, err.Error())
+	}
+
+	data := &dto.RefreshTokenResp{
+		Token: token,
+	}
+	response.JSON(ctx, data)
+}
