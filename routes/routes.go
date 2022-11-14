@@ -15,6 +15,7 @@ func RegisterAPIRouters(r *gin.Engine) {
 			testGroup.GET("/recovery", api.Recovery)
 			testGroup.GET("/db", api.Db)
 			testGroup.GET("/redis", api.Redis)
+			testGroup.POST("/vali", api.Vali)
 		}
 	}
 }

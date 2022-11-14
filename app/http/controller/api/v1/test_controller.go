@@ -6,7 +6,9 @@ import (
 	"github.com/spf13/cast"
 	"go-hub/app/http/controller/api"
 	"go-hub/app/service"
+	"go-hub/app/service/dto"
 	"go-hub/pkg/redis"
+	"go-hub/pkg/request"
 	"go-hub/pkg/response"
 	"time"
 )
@@ -40,4 +42,17 @@ func (tc TestController) Redis(ctx *gin.Context) {
 
 	res2 := redis.Client.Get("my-name")
 	response.Success(ctx, "缓存："+res2)
+}
+
+func (tc TestController) Vali(ctx *gin.Context) {
+	req := dto.ValiReq{}
+	if ok := request.Validate(ctx, &req); !ok {
+		return
+	}
+
+	data := &dto.ValiResp{
+		Name: "Maki",
+		Age:  18,
+	}
+	response.JSON(ctx, data)
 }
